@@ -238,14 +238,14 @@ $document->render();
 	<table class="area_data_selection">
 		<colgroup>
 			<col style="width:3%">
-			<col style="width:3%">
-			<col style="width:5%">
-			<col style="width:5%">
 			<col style="width:5%">
 			<col style="width:3%">
-			<col style="width:3%">
-			<col style="width:15%">
 			<col style="width:5%">
+			<col style="width:10%">
+			<col style="width:3%">
+			<col style="width:3%">
+			<col style="width:3%">
+			<col style="width:2%">
 			<col style="width:2%">
 			<col style="width:2%">
 			<col style="width:3%">
@@ -257,16 +257,16 @@ $document->render();
 ?>
 			<tr>
 				<th class="lhelc"><?=gtext('Select');?></th>
-				<th class="lhell"><?=gtext('PID');?></th>
-				<th class="lhell"><?=gtext('IP Address');?></th>
 				<th class="lhell"><?=gtext('Name');?></th>
+				<th class="lhell"><?=gtext('JID');?></th>
+				<th class="lhell"><?=gtext('IP Address');?></th>
+				<th class="lhell"><?=gtext('FQDN');?></th>
+				<th class="lhell"><?=gtext('VER');?></th>
 				<th class="lhell"><?=gtext('CPUs');?></th>
 				<th class="lhell"><?=gtext('RAM');?></th>
-				<th class="lhell"><?=gtext('OS');?></th>
-				<th class="lhell"><?=gtext('SSH string');?></th>
-				<th class="lhell"><?=gtext('VNC');?></th>
 				<th class="lhell"><?=gtext('Boot');?></th>
 				<th class="lhell"><?=gtext('Active');?></th>
+				<th class="lhell"><?=gtext('VNC');?></th>
 				<th class="lhebl"><?=gtext('Toolbox');?></th>
 			</tr>
 		</thead>
@@ -295,21 +295,19 @@ $document->render();
 <?php
 						endif;
 
-					$ssh1_len=strlen($sphere_record['ssh_string']);
-					$ssh2_len=strlen($sphere_record['ssh_string2']);
-					$ssh1_len--;
-					$ssh2_len--;
-
 					$jid=htmlspecialchars($sphere_record['id']);
+					$jname=htmlspecialchars($sphere_record['name']);
 ?>
 					</td>
+					<td class="lcell"><?php echo "${jname}";?>&nbsp;</td>
 					<td class="lcell"><?php echo "${jid}";?>&nbsp;</td>
 					<td class="lcell"><?=htmlspecialchars($sphere_record['ip']);?>&nbsp;</td>
-					<td class="lcell"><?=htmlspecialchars($sphere_record['name']);?>&nbsp;</td>
+					<td class="lcell"><?=htmlspecialchars($sphere_record['rel']);?>&nbsp;</td>
+					<td class="lcell"><?=htmlspecialchars($sphere_record['ver']);?>&nbsp;</td>
 					<td class="lcell"><?=htmlspecialchars($sphere_record['cpus']);?>&nbsp;</td>
 					<td class="lcell"><?=htmlspecialchars($sphere_record['ram']);?>&nbsp;</td>
-					<td class="lcell"><img src="<?=$sphere_record['logo'];?>"><?=htmlspecialchars($sphere_record['rel']);?>&nbsp;</td>
-					<td class="lcell"><input type="text" minlength="<?=$ssh1_len;?>" maxlength="<?=$ssh1_len;?>" size="<?=$ssh1_len;?>"  value="<?=htmlspecialchars($sphere_record['ssh_string']);?>" readonly> / <input type="text" minlength="<?=$ssh2_len;?>" maxlength="<?=$ssh2_len;?>" size="<?=$ssh2_len;?>" value="<?=htmlspecialchars($sphere_record['ssh_string2']);?>" readonly></td>
+					<td class="lcell"><img src="<?=$sphere_record['boot'];?>"></td>
+					<td class="lcell"><img src="<?=$sphere_record['stat'];?>"></td>
 <?php
 					if ($jid == 0):
 ?>
@@ -317,12 +315,10 @@ $document->render();
 <?php
 					else:
 ?>
-					<td class="lcell"><a target="_blank" href="/cbsd_ttyd.php?jid=<?=htmlspecialchars($sphere_record['id']);?>"><img src="/ext/cbsd-jail/images/terminal.png" alt="Terminal" width="24" height="24"></a></td>
+					<td class="lcell"><a target="_blank" href="/cbsd_ttyd.php?jname=<?php echo "${jname}";?>&jid=<?=htmlspecialchars($sphere_record['id']);?>"><img src="/ext/cbsd-jail/images/terminal.png" alt="Terminal" width="24" height="24"></a></td>
 <?php
 					endif;
 ?>
-					<td class="lcell"><img src="<?=$sphere_record['boot'];?>"></td>
-					<td class="lcell"><img src="<?=$sphere_record['stat'];?>"></td>
 					<td class="lcebld">
 						<table class="area_data_selection_toolbox"><tbody><tr>
 							<td>

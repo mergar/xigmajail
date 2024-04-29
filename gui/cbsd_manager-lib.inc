@@ -177,12 +177,12 @@ function get_jail_infos() {
 	global $configfile;
 	global $jail_dir;
 	$result = [];
-	$cmd = "/usr/local/bin/cbsd jls display=jid,jname,ip4_addr,host_hostname,status,astart,vm_ram,vm_cpus,vnc header=0";
+	$cmd = "/usr/local/bin/cbsd jls display=jid,jname,ip4_addr,host_hostname,ver,status,astart,vm_ram,vm_cpus,vnc header=0";
 	mwexec2($cmd,$rawdata);
 	foreach($rawdata as $line):
 		$line = preg_replace('/\s+/', ' ', $line);
 
-		list($jid,$name,$ip4_addr,$host_hostname,$status,$astart,$vm_ram,$vm_cpus,$vnc)=explode(' ',$line);
+		list($jid,$name,$ip4_addr,$host_hostname,$ver,$status,$astart,$vm_ram,$vm_cpus,$vnc)=explode(' ',$line);
 
 		$r = [];
 		$r['name'] = $name;
@@ -191,6 +191,7 @@ function get_jail_infos() {
 		$item = $r['jailname'];
 		$r['ip'] = $ip4_addr;
 		$r['rel'] = $host_hostname;
+		$r['ver'] = $ver;
 		// Display interfaces.
 		$r['nic'] = "-";
 		// Display path.
@@ -216,6 +217,12 @@ function get_jail_infos() {
 			$r['ssh_string'] = "";
 			$r['stat'] = $img_path['dis'];
 		}
+		if ( $vm_ram == '-' ):
+			$vm_ram="unlimited";
+		endif;
+		if ( $vm_cpus == '-' ):
+			$vm_cpus="unlimited";
+		endif;
 		$r['ram'] = $vm_ram;
 		$r['cpus'] = $vm_cpus;
 		$vnc="http://test:test1@127.0.0.1:7681";

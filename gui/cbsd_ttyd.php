@@ -1,4 +1,5 @@
 <?php
+//TODO: Implement STREAM proxy to ttyd.sock unix socket instead of BASIC AUTH
 require_once 'auth.inc';
 require_once 'guiconfig.inc';
 require_once("cbsd_manager-lib.inc");
@@ -9,28 +10,32 @@ if($_GET):
 	else:
 		die();
 	endif;
+	if(isset($_GET['jname'])):
+		$jname=$_GET['jname'];
+	else:
+		$jname="JID${jid}";
+	endif;
 else:
 	echo "No jid";
 	die();
 //	endif;
 endif;
 
-//echo "Starting terminal...";
+$secret=md5(uniqid(rand(), true));
+$cmd="ttyd -o -m 1 -t titleFixed=\"jail:${jname}\" -c ${secret}:${secret} --writable -p 7681 /usr/sbin/jexec ${jid} /bin/csh";
 
-//exec("/bin/pkill -9 ttyd; ttyd -c root:test1 -p 7681 /usr/sbin/jexec ${jid} /bin/csh;",$output,$return_val);
-$cmd="ttyd --writable -c root:test1 -p 7681 /usr/sbin/jexec ${jid} /bin/csh";
-//exec("/bin/pkill -9 ttyd;  tmux -2 -u new -d -s \"cbsd-${jname}\" \"${cmd}\" ;",$output,$return_val);
-exec("/bin/pkill -9 ttyd; /usr/sbin/daemon -f ${cmd};",$output,$return_val);
-//$output = shell_exec("/bin/pkill -9 ttyd; /usr/sbin/daemon -f ttyd -c root:test1 -p 7681 /usr/sbin/jexec ${jid} /bin/csh; sleep 2;");
+header("Expires: Sat, 01 Jan 2000 00:00:00 GMT");
+header("Last-Modified: ".gmdate("D, d M Y H:i:s")." GMT");
+header("Cache-Control: post-check=0, pre-check=0",false);
+header("Pragma: no-cache");
+
+exec("/bin/pkill -9 ttyd; /usr/sbin/daemon -f ${cmd}; sleep 2;",$output,$return_val);
 if ( $return_val == 0 ):
-	$url="http://root:test1@xigma:7681";
-	echo "<meta http-equiv=\"refresh\" content=\"0; url=$url\" />";
+	$url="http://${secret}:${secret}@xigma:7681";
+	echo "<meta http-equiv=\"refresh\" content=\"0; url=${url}\" />";
 else:
 	print_r($output);
 endif;
 
-
-//echo "COOL";
 die();
-
 include 'fend.inc';
