@@ -214,7 +214,7 @@ $document->render();
 			$cpu_default_option = '1';
 			html_combobox2('cpu',gettext("vCPU (Host Core Num: (0 - unlimited))"),array_key_exists($pconfig['cpu'] ?? '',$d_action) ? $pconfig['cpu'] : $cpu_default_options ,$d_action,'',true,false,'type_change()');
 			html_inputbox2('ram',gettext('Jail RAM (1g, 4g, .., 0 - unlimited)'),$pconfig['ram'],"",true,20);
-			html_inputbox2('imgsize',gettext('Disk size (20g, 40g, .., 0 - unlimited)'),$pconfig['imgsize'],'',true,20);
+//			html_inputbox2('imgsize',gettext('Disk size (20g, 40g, .., 0 - unlimited)'),$pconfig['imgsize'],'',true,20);
 			html_inputbox2('ipaddress',gettext('IP Address'),$ip4_addr[0],'',true,20);
 			html_combobox2('interface',gettext('Network interface'),!empty($pconfig['interface']),$a_action,'',true,false);
 //			html_combobox2('vnc_bind',gettext('VNC bind'),!empty($pconfig['vnc_bind']),$l_vnc_bind,'',true,false);
