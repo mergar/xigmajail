@@ -218,7 +218,9 @@ function get_jail_infos() {
 		}
 		$r['ram'] = $vm_ram;
 		$r['cpus'] = $vm_cpus;
+		$vnc="http://test:test1@127.0.0.1:7681";
 		$r['vnc'] = $vnc;
+
 		// Display custom template icons if available.
 		$r['logo'] = "{$image_dir}/freebsd_icon.png";
 

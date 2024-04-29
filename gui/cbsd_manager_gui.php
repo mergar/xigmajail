@@ -17,11 +17,13 @@ $gt_record_mod = gtext('Utilities');
 $gt_selection_start = gtext('Start Selected');
 $gt_selection_stop = gtext('Stop Selected');
 $gt_selection_restart = gtext('Restart Selected');
+$gt_selection_destroy = gtext('Destroy Selected');
 $gt_record_conf = gtext('Jail Configuration');
 $gt_record_inf = gtext('Information');
 $gt_selection_start_confirm = gtext('Do you really want to start selected Jail(s)?');
 $gt_selection_stop_confirm = gtext('Do you want to stop the selected Jail(s)?');
 $gt_selection_restart_confirm = gtext('Do you want to restart the selected Jail(s)?');
+$gt_selection_destroy_confirm = gtext('Do you want to destroy the selected Jail(s)?');
 $img_path = [
 	'add' => 'images/add.png',
 	'mod' => 'images/edit.png',
@@ -69,7 +71,7 @@ if($_POST):
 		foreach($checkbox_member_array as $checkbox_member_record):
 			if(false !== ($index = array_search_ex($checkbox_member_record, $sphere_array, 'jailname'))):
 				if(!isset($sphere_array[$index]['protected'])):
-					$cmd = ("/usr/local/bin/cbsd bstart {$checkbox_member_record} > {$logevent} 2>&1");
+					$cmd = ("/usr/local/bin/cbsd jstart {$checkbox_member_record} > {$logevent} 2>&1");
 					$return_val = mwexec($cmd);
 					if($return_val == 0):
 						//$savemsg .= gtext("Jail(s) started successfully.");
@@ -87,7 +89,7 @@ if($_POST):
 		foreach($checkbox_member_array as $checkbox_member_record):
 			if(false !== ($index = array_search_ex($checkbox_member_record, $sphere_array, 'jailname'))):
 				if(!isset($sphere_array[$index]['protected'])):
-					$cmd = ("/usr/local/bin/cbsd bstop {$checkbox_member_record}");
+					$cmd = ("/usr/local/bin/cbsd jstop {$checkbox_member_record}");
 					$return_val = mwexec($cmd);
 					if($return_val == 0):
 						//$savemsg .= gtext("Jail(s) stopped successfully.");
@@ -105,7 +107,7 @@ if($_POST):
 		foreach($checkbox_member_array as $checkbox_member_record):
 			if(false !== ($index = array_search_ex($checkbox_member_record, $sphere_array, 'jailname'))):
 				if(!isset($sphere_array[$index]['protected'])):
-					$cmd = ("/usr/local/bin/cbsd brestart {$checkbox_member_record}");
+					$cmd = ("/usr/local/bin/cbsd jrestart {$checkbox_member_record}");
 					$return_val = mwexec($cmd);
 					if($return_val == 0):
 						//$savemsg .= gtext("Jail(s) restarted successfully.");
@@ -117,6 +119,25 @@ if($_POST):
 			endif;
 		endforeach;
 	endif;
+
+	if(isset($_POST['destroy_selected_jail']) && $_POST['destroy_selected_jail']):
+		$checkbox_member_array = isset($_POST[$checkbox_member_name]) ? $_POST[$checkbox_member_name] : [];
+		foreach($checkbox_member_array as $checkbox_member_record):
+			if(false !== ($index = array_search_ex($checkbox_member_record, $sphere_array, 'jailname'))):
+				if(!isset($sphere_array[$index]['protected'])):
+					$cmd = ("/usr/local/bin/cbsd jdestroy {$checkbox_member_record}");
+					$return_val = mwexec($cmd);
+					if($return_val == 0):
+						//$savemsg .= gtext("Jail(s) restarted successfully.");
+						header($sphere_header);
+					else:
+						$errormsg .= gtext("Failed to destroy Jail(s).");
+					endif;
+				endif;
+			endif;
+		endforeach;
+	endif;
+
 endif;
 
 $pgtitle = [gtext("Extensions"), gtext('cbsd')];
@@ -135,6 +156,9 @@ $(window).on("load", function() {
 	$("#restart_selected_jail").click(function () {
 		return confirm('<?=$gt_selection_restart_confirm;?>');
 	});
+	$("#destroy_selected_jail").click(function () {
+		return confirm('<?=$gt_selection_destroy_confirm;?>');
+	});
 	// Disable action buttons.
 	disableactionbuttons(true);
 
@@ -150,6 +174,7 @@ function disableactionbuttons(ab_disable) {
 	$("#start_selected_jail").prop("disabled", ab_disable);
 	$("#stop_selected_jail").prop("disabled", ab_disable);
 	$("#restart_selected_jail").prop("disabled", ab_disable);
+	$("#destroy_selected_jail").prop("disabled", ab_disable);
 }
 
 function controlactionbuttons(ego, triggerbyname) {
@@ -283,7 +308,7 @@ $document->render();
 					<td class="lcell"><?=htmlspecialchars($sphere_record['ram']);?>&nbsp;</td>
 					<td class="lcell"><img src="<?=$sphere_record['logo'];?>"><?=htmlspecialchars($sphere_record['rel']);?>&nbsp;</td>
 					<td class="lcell"><input type="text" minlength="<?=$ssh1_len;?>" maxlength="<?=$ssh1_len;?>" size="<?=$ssh1_len;?>"  value="<?=htmlspecialchars($sphere_record['ssh_string']);?>" readonly> / <input type="text" minlength="<?=$ssh2_len;?>" maxlength="<?=$ssh2_len;?>" size="<?=$ssh2_len;?>" value="<?=htmlspecialchars($sphere_record['ssh_string2']);?>" readonly></td>
-					<td class="lcell"><?=htmlspecialchars($sphere_record['vnc']);?>&nbsp;</td>
+					<td class="lcell"><a target="_blank" href="/cbsd_ttyd.php?jid=<?=htmlspecialchars($sphere_record['id']);?>"><img src="/ext/cbsd-jail/images/terminal.png" alt="Terminal" width="24" height="24"></a></td>
 					<td class="lcell"><img src="<?=$sphere_record['boot'];?>"></td>
 					<td class="lcell"><img src="<?=$sphere_record['stat'];?>"></td>
 					<td class="lcebld">
@@ -336,6 +361,7 @@ $document->render();
 		<input name="start_selected_jail" id="start_selected_jail" type="submit" class="formbtn" value="<?=$gt_selection_start;?>"/>
 		<input name="stop_selected_jail" id="stop_selected_jail" type="submit" class="formbtn" value="<?=$gt_selection_stop;?>"/>
 		<input name="restart_selected_jail" id="restart_selected_jail" type="submit" class="formbtn" value="<?=$gt_selection_restart;?>"/>
+		<input name="destroy_selected_jail" id="destroy_selected_jail" type="submit" class="formbtn" value="<?=$gt_selection_destroy;?>"/>
 	</div>
 <?php
 	include 'formend.inc';

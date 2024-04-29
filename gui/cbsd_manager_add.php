@@ -117,9 +117,9 @@ if($_POST):
 		endif;
 
 		if (isset($_POST['nowstart'])):
-			$cmd = ("/usr/bin/env NOINTER=1 /usr/local/bin/cbsd jcreate jname={$jname} astart={$astart} ip4_addr={$ipaddr} ver=native runasap=1 inter0");
+			$cmd = ("/usr/bin/env NOINTER=1 /usr/local/bin/cbsd jcreate jname={$jname} astart={$astart} ip4_addr={$ipaddr} ver=native runasap=1 inter=0 pkg_bootstrap=0");
 		else:
-			$cmd = ("/usr/bin/env NOINTER=1 /usr/local/bin/cbsd jcreate jname={$jname} astart={$astart} ip4_addr={$ipaddr} ver=native inter=0");
+			$cmd = ("/usr/bin/env NOINTER=1 /usr/local/bin/cbsd jcreate jname={$jname} astart={$astart} ip4_addr={$ipaddr} ver=native inter=0 pkg_bootstrap=0");
 		endif;
 
 		if ($_POST['Create']):
