@@ -21,10 +21,10 @@ if(!(isset($pconfig['cpu']))):
 	if(file_exists( $configfile )):
 		$pconfig['cpu'] = exec("/usr/bin/grep '^last_cpu_created=' {$configfile} 2>/dev/null | /usr/bin/cut -d'\"' -f2");
 		if(empty($pconfig['cpu'])):
-			$pconfig['cpu'] = '1';
+			$pconfig['cpu'] = '0';
 		endif;
 	else:
-		$pconfig['cpu'] = '1';
+		$pconfig['cpu'] = '0';
 	endif;
 endif;
 
@@ -32,10 +32,10 @@ if(!(isset($pconfig['ram']))):
 	if(file_exists( $configfile )):
 		$pconfig['ram'] = exec("/usr/bin/grep '^last_ram_created=' {$configfile} 2>/dev/null | /usr/bin/cut -d'\"' -f2");
 		if(empty($pconfig['ram'])):
-			$pconfig['ram'] = '1g';
+			$pconfig['ram'] = '0';
 		endif;
 	else:
-		$pconfig['ram'] = '1g';
+		$pconfig['ram'] = '0';
 	endif;
 endif;
 
@@ -43,16 +43,16 @@ if(!(isset($pconfig['imgsize']))):
 	if(file_exists( $configfile )):
 		$pconfig['imgsize'] = exec("/usr/bin/grep '^last_imgsize_created=' {$configfile} 2>/dev/null | /usr/bin/cut -d'\"' -f2");
 		if(empty($pconfig['imgsize'])):
-			$pconfig['imgsize'] = '14g';
+			$pconfig['imgsize'] = '0';
 		endif;
 	else:
-		$pconfig['imgsize'] = '14g';
+		$pconfig['imgsize'] = '0';
 	endif;
 endif;
 
-if(!(isset($pconfig['vnc_bind']))):
-	$pconfig['vnc_bind'] = '127.0.0.1';
-endif;
+//if(!(isset($pconfig['vnc_bind']))):
+//	$pconfig['vnc_bind'] = '127.0.0.1';
+//endif;
 
 if(!file_exists("{$workdir}/cmd.subr")):
 	$errormsg = gtext('CBSD workdir not initialized yet.')
@@ -97,7 +97,7 @@ if($_POST):
 		$cpu = $pconfig['cpu'];
 		$ram = $pconfig['ram'];
 		$imgsize = $pconfig['imgsize'];
-		$vnc_bind = $pconfig['vnc_bind'];
+//		$vnc_bind = $pconfig['vnc_bind'];
 		$options = "";
 		if ($_POST['interface'] == 'Config'):
 			$interface = "";
@@ -105,10 +105,10 @@ if($_POST):
 			$interface = $pconfig['interface'];
 		endif;
 
-		$profile_path = sprintf('/usr/local/cbsd/etc/defaults/vm-%1$s.conf',$release);
-		$vm_os_type = exec("/usr/bin/grep '^vm_os_type=' {$profile_path} | /usr/bin/cut -d'\"' -f2");
-		$vm_os_profile = exec("/usr/bin/grep '^vm_profile=' {$profile_path} | /usr/bin/cut -d'\"' -f2");
-		exec("/usr/sbin/sysrc -f {$configfile} last_release_created=\"{$release}\" last_cpu_created=\"{$cpu}\" last_ram_created=\"{$ram}\" last_imgsize_created=\"{$imgsize}\"");
+//		$profile_path = sprintf('/usr/local/cbsd/etc/defaults/vm-%1$s.conf',$release);
+//		$vm_os_type = exec("/usr/bin/grep '^vm_os_type=' {$profile_path} | /usr/bin/cut -d'\"' -f2");
+//		$vm_os_profile = exec("/usr/bin/grep '^vm_profile=' {$profile_path} | /usr/bin/cut -d'\"' -f2");
+//		exec("/usr/sbin/sysrc -f {$configfile} last_release_created=\"{$release}\" last_cpu_created=\"{$cpu}\" last_ram_created=\"{$ram}\" last_imgsize_created=\"{$imgsize}\"");
 
 		if (isset($_POST['autostart'])):
 			$astart="1";
@@ -198,36 +198,34 @@ $document->render();
 //			$a_action = $l_interfaces;
 			$a_action = [ 'cbsd0' => 'cbsd0' ];
 			$b_action = $l_release;
-			$c_action = $l_pubkey;
+//			$c_action = $l_pubkey;
 			$d_action = $l_cpu;
-			$e_action = $l_vnc_bind;
+//			$e_action = $l_vnc_bind;
 
-			$host_cpu = @exec("/sbin/sysctl -q -n hw.ncpu");
-
-			if(file_exists("{$rootfolder}/pubkey/default")):
-				$pubkey = file_get_contents("{$rootfolder}/pubkey/default");
-				$pubkey_pieces = explode(' ', $pubkey);
-				$pubkey_comment = "(".array_pop($pubkey_pieces).")";
-			else:
-				$pubkey_comment = '';
-			endif;
+//			if(file_exists("{$rootfolder}/pubkey/default")):
+//				$pubkey = file_get_contents("{$rootfolder}/pubkey/default");
+//				$pubkey_pieces = explode(' ', $pubkey);
+//				$pubkey_comment = "(".array_pop($pubkey_pieces).")";
+//			else:
+//				$pubkey_comment = '';
+//			endif;
 			html_inputbox2('jailname',gettext('Jail name'),$jname[0],'',true,20);
 
 			$cpu_default_option = '1';
-			html_combobox2('cpu',gettext("vCPU (Host Core Num: {$host_cpu})"),array_key_exists($pconfig['cpu'] ?? '',$d_action) ? $pconfig['cpu'] : $cpu_default_options ,$d_action,'',true,false,'type_change()');
-			html_inputbox2('ram',gettext('Jail RAM (1g, 4g, ..)'),$pconfig['ram'],"",true,20);
-			html_inputbox2('imgsize',gettext('Disk size (20g, 40g, ..)'),$pconfig['imgsize'],'',true,20);
+			html_combobox2('cpu',gettext("vCPU (Host Core Num: (0 - unlimited))"),array_key_exists($pconfig['cpu'] ?? '',$d_action) ? $pconfig['cpu'] : $cpu_default_options ,$d_action,'',true,false,'type_change()');
+			html_inputbox2('ram',gettext('Jail RAM (1g, 4g, .., 0 - unlimited)'),$pconfig['ram'],"",true,20);
+			html_inputbox2('imgsize',gettext('Disk size (20g, 40g, .., 0 - unlimited)'),$pconfig['imgsize'],'',true,20);
 			html_inputbox2('ipaddress',gettext('IP Address'),$ip4_addr[0],'',true,20);
 			html_combobox2('interface',gettext('Network interface'),!empty($pconfig['interface']),$a_action,'',true,false);
-			html_combobox2('vnc_bind',gettext('VNC bind'),!empty($pconfig['vnc_bind']),$l_vnc_bind,'',true,false);
+//			html_combobox2('vnc_bind',gettext('VNC bind'),!empty($pconfig['vnc_bind']),$l_vnc_bind,'',true,false);
 
-			if(file_exists( $configfile )):
-				$pconfig['release'] = exec("/usr/bin/grep '^last_release_created=' {$configfile} 2>/dev/null | /usr/bin/cut -d'\"' -f2");
-			endif;
+//			if(file_exists( $configfile )):
+//				$pconfig['release'] = exec("/usr/bin/grep '^last_release_created=' {$configfile} 2>/dev/null | /usr/bin/cut -d'\"' -f2");
+//			endif;
 
-			html_combobox2('release',gettext('Profile name'),array_key_exists($pconfig['release'] ?? '',$b_action) ? $pconfig['release'] : $default_options ,$b_action,'<a href="cbsd_manager_golds.php"><span>Warm more (Gold image libraries)</span></a>',true,false,'type_change()');
-			html_combobox2('pubkey',  gettext('Pubkey'),!empty($pconfig['pubkey']),$c_action,"{$pubkey_comment}",true,false);
-			html_checkbox2('nowstart',gettext('Start after creation'),!empty($pconfig['nowstart']) ? true : false,gettext('Start the Jail after creation(May be overridden by later cbsd releases).'),'',false);
+//			html_combobox2('release',gettext('Profile name'),array_key_exists($pconfig['release'] ?? '',$b_action) ? $pconfig['release'] : $default_options ,$b_action,'<a href="cbsd_manager_golds.php"><span>Warm more (Gold image libraries)</span></a>',true,false,'type_change()');
+//			html_combobox2('pubkey',  gettext('Pubkey'),!empty($pconfig['pubkey']),$c_action,"{$pubkey_comment}",true,false);
+			html_checkbox2('nowstart',gettext('Start after creation'),!empty($pconfig['nowstart']) ? true : false,gettext('Start the Jail after creation.'),'',false);
 			html_checkbox2('autostart',gettext('Auto start on boot'),!empty($pconfig['autostart']) ? true : false,gettext('Automatically start the Jail at boot time.'),'',false);
 ?>
 		</tbody>
