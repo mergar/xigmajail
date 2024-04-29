@@ -11,7 +11,7 @@ $pgtitle = array(gtext("Extensions"), "CBSD", "Create");
 $pconfig = [];
 
 if(!(isset($pconfig['jailname']))):
-	$pconfig['jailname'] = 'vm1';
+	$pconfig['jailname'] = 'jail1';
 endif;
 if(!(isset($pconfig['ipaddress']))):
 	$pconfig['ipaddress'] = '';
@@ -62,23 +62,23 @@ if(!file_exists("{$workdir}/cmd.subr")):
 			. '</a>';
 		$prerequisites_ok = false;
 else:
-	if(!get_all_release_list()):
-		$errormsg = gtext('No gold images downloaded yet.')
-				. ' '
-				. '<a href="' . 'cbsd_manager_golds.php' . '">'
-				. gtext('Please download a image first.')
-				. '</a>';
-			$prerequisites_ok = false;
-	endif;
+//	if(!get_all_release_list()):
+//		$errormsg = gtext('No basejail downloaded yet.')
+//				. ' '
+//				. '<a href="' . 'cbsd_manager_golds.php' . '">'
+//				. gtext('Please download a image first.')
+//				. '</a>';
+//			$prerequisites_ok = false;
+//	endif;
 
-	if(!get_all_pubkey_list()):
-		$errormsg = gtext('No public key added yet.')
-				. ' '
-				. '<a href="' . 'cbsd_manager_pubkey.php' . '">'
-				. gtext('Please add public key first.')
-				. '</a>';
-			$prerequisites_ok = false;
-	endif;
+//	if(!get_all_pubkey_list()):
+//		$errormsg = gtext('No public key added yet.')
+//				. ' '
+//				. '<a href="' . 'cbsd_manager_pubkey.php' . '">'
+//				. gtext('Please add public key first.')
+//				. '</a>';
+//			$prerequisites_ok = false;
+//	endif;
 endif;
 
 if($_POST):
@@ -117,23 +117,25 @@ if($_POST):
 		endif;
 
 		if (isset($_POST['nowstart'])):
-			$cmd = ("/usr/local/bin/cbsd jcreate jname={$jname} astart={$astart} vm_ram={$ram} vm_cpus={$cpu} vm_os_type={$vm_os_type} vm_os_profile={$vm_os_profile} imgsize={$imgsize} jail_vnc_tcp_bind={$vnc_bind} ci_ip4_addr={$ipaddr} ci_user_pubkey=\"{$rootfolder}/pubkey/default\" runasap=1");
+			$cmd = ("/usr/bin/env NOINTER=1 /usr/local/bin/cbsd jcreate jname={$jname} astart={$astart} ip4_addr={$ipaddr} ver=native runasap=1 inter0");
 		else:
-			$cmd = ("/usr/local/bin/cbsd jcreate jname={$jname} astart={$astart} vm_ram={$ram} vm_cpus={$cpu} vm_os_type={$vm_os_type} vm_os_profile={$vm_os_profile} imgsize={$imgsize} jail_vnc_tcp_bind={$vnc_bind} ci_ip4_addr={$ipaddr} ci_user_pubkey=\"{$rootfolder}/pubkey/default\"");
+			$cmd = ("/usr/bin/env NOINTER=1 /usr/local/bin/cbsd jcreate jname={$jname} astart={$astart} ip4_addr={$ipaddr} ver=native inter=0");
 		endif;
 
 		if ($_POST['Create']):
-			if(get_all_release_list()):
+//			if(get_all_release_list()):
 				unset($output,$retval);mwexec2($cmd,$output,$retval);
 				if($retval == 0):
 					header('Location: cbsd_manager_gui.php');
 					exit;
 				else:
-					$errormsg .= gtext("Failed to create VM.");
+					echo "TEST";
+					print_r($output);
+					$errormsg .= gtext("Failed to create Jail.");
 				endif;
-			else:
-				$errormsg .= gtext(" <<< Failed to create VM.");
-			endif;
+//			else:
+//				$errormsg .= gtext(" <<< Failed to create Jail.");
+//			endif;
 		endif;
 	endif;
 endif;
@@ -154,7 +156,7 @@ $document->
 	add_area_tabnav()->
 		push()->
 		add_tabnav_upper()->
-			ins_tabnav_record('cbsd_manager_gui.php',gettext('VM'),gettext('Reload page'),true)->
+			ins_tabnav_record('cbsd_manager_gui.php',gettext('Jails'),gettext('Reload page'),true)->
 			ins_tabnav_record('cbsd_manager_info.php',gettext('Information'),gettext('Reload page'),true)->
 			ins_tabnav_record('cbsd_manager_maintenance.php',gettext('Maintenance'),gettext('Reload page'),true);
 $document->render();
@@ -181,13 +183,13 @@ $document->render();
 		</colgroup>
 		<thead>
 <?php
-			html_titleline2(gettext('Create new VM'));
+			html_titleline2(gettext('Create new Jail'));
 ?>
 		</thead>
 		<tbody>
 <?php
 			if($prerequisites_ok != false ):
-				exec("/usr/local/bin/cbsd freejname default_jailname=vm",$jname);
+				exec("/usr/local/bin/cbsd freejname default_jailname=jail",$jname);
 				exec("/usr/local/bin/cbsd dhcpd",$ip4_addr);
 			else:
 				$ip4_addr="";
@@ -209,11 +211,11 @@ $document->render();
 			else:
 				$pubkey_comment = '';
 			endif;
-			html_inputbox2('jailname',gettext('VM name'),$jname[0],'',true,20);
+			html_inputbox2('jailname',gettext('Jail name'),$jname[0],'',true,20);
 
 			$cpu_default_option = '1';
 			html_combobox2('cpu',gettext("vCPU (Host Core Num: {$host_cpu})"),array_key_exists($pconfig['cpu'] ?? '',$d_action) ? $pconfig['cpu'] : $cpu_default_options ,$d_action,'',true,false,'type_change()');
-			html_inputbox2('ram',gettext('VM RAM (1g, 4g, ..)'),$pconfig['ram'],"",true,20);
+			html_inputbox2('ram',gettext('Jail RAM (1g, 4g, ..)'),$pconfig['ram'],"",true,20);
 			html_inputbox2('imgsize',gettext('Disk size (20g, 40g, ..)'),$pconfig['imgsize'],'',true,20);
 			html_inputbox2('ipaddress',gettext('IP Address'),$ip4_addr[0],'',true,20);
 			html_combobox2('interface',gettext('Network interface'),!empty($pconfig['interface']),$a_action,'',true,false);
@@ -225,8 +227,8 @@ $document->render();
 
 			html_combobox2('release',gettext('Profile name'),array_key_exists($pconfig['release'] ?? '',$b_action) ? $pconfig['release'] : $default_options ,$b_action,'<a href="cbsd_manager_golds.php"><span>Warm more (Gold image libraries)</span></a>',true,false,'type_change()');
 			html_combobox2('pubkey',  gettext('Pubkey'),!empty($pconfig['pubkey']),$c_action,"{$pubkey_comment}",true,false);
-			html_checkbox2('nowstart',gettext('Start after creation'),!empty($pconfig['nowstart']) ? true : false,gettext('Start the VM after creation(May be overridden by later cbsd releases).'),'',false);
-			html_checkbox2('autostart',gettext('Auto start on boot'),!empty($pconfig['autostart']) ? true : false,gettext('Automatically start the VM at boot time.'),'',false);
+			html_checkbox2('nowstart',gettext('Start after creation'),!empty($pconfig['nowstart']) ? true : false,gettext('Start the Jail after creation(May be overridden by later cbsd releases).'),'',false);
+			html_checkbox2('autostart',gettext('Auto start on boot'),!empty($pconfig['autostart']) ? true : false,gettext('Automatically start the Jail at boot time.'),'',false);
 ?>
 		</tbody>
 	</table>

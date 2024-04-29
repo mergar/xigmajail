@@ -99,16 +99,17 @@ if($_POST):
 					$plugin_icon = "{$image_dir}/{$item}_icon.png";
 
 					if(strcmp($confirm_name, $item) !== 0):
-						$input_errors[] = gtext("Failed to destroy VM, name confirmation is required.");
+						$input_errors[] = gtext("Failed to destroy Jail, name confirmation is required.");
 						break;
 					else:
-						$cmd = ("/usr/local/bin/cbsd bdestroy {$item}");
+						$cmd = ("/usr/local/bin/cbsd jdestroy {$item}");
 						unset($output,$retval);mwexec2($cmd,$output,$retval);
 						if($retval == 0):
 							header('Location: cbsd_manager_gui.php');
 							exit;
 						else:
-							$input_errors[] = gtext("Failed to destroy VM, make sure this container is stopped.");
+							print_r($output);
+							$input_errors[] = gtext("Failed to destroy Jail, make sure this container is stopped.");
 						endif;
 					endif;
 				endif;
@@ -181,7 +182,7 @@ $document->
 	add_area_tabnav()->
 		push()->
 		add_tabnav_upper()->
-			ins_tabnav_record('cbsd_manager_gui.php',gettext('VM'),gettext('Reload page'),true)->
+			ins_tabnav_record('cbsd_manager_gui.php',gettext('Jails'),gettext('Reload page'),true)->
 			ins_tabnav_record('cbsd_manager_info.php',gettext('Information'),gettext('Reload page'),true)->
 			ins_tabnav_record('cbsd_manager_maintenance.php',gettext('Maintenance'),gettext('Reload page'),true);
 $document->render();
@@ -226,8 +227,8 @@ $document->render();
 			html_inputbox2('confirmname',gettext('Enter name for confirmation'),!empty($pconfig['confirmname']),'',true,30);
 			html_inputbox2('newname',gettext('Enter a name for the new container'),!empty($pconfig['newname']),'',true,30);
 			html_inputbox2('newipaddr',gettext('Enter a IP address for the new container'),!empty($pconfig['newipaddr']),'',true,30);
-			html_text2('auto_boot',gettext('Enable container auto-startup'),htmlspecialchars("This will cause the VM to automatically start each time the system restart."));
-			html_text2('no_autoboot',gettext('Disable container auto-startup'),htmlspecialchars("This will disable the VM automatic startup."));
+			html_text2('auto_boot',gettext('Enable container auto-startup'),htmlspecialchars("This will cause the Jail to automatically start each time the system restart."));
+			html_text2('no_autoboot',gettext('Disable container auto-startup'),htmlspecialchars("This will disable the Jail automatic startup."));
 ?>
 		</tbody>
 	</table>

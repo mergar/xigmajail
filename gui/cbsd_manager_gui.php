@@ -12,16 +12,16 @@ $sphere_record = [];
 $checkbox_member_name = 'checkbox_member_array';
 $checkbox_member_array = [];
 $checkbox_member_record = [];
-$gt_record_add = gtext('Create new VM');
+$gt_record_add = gtext('Create new jail');
 $gt_record_mod = gtext('Utilities');
 $gt_selection_start = gtext('Start Selected');
 $gt_selection_stop = gtext('Stop Selected');
 $gt_selection_restart = gtext('Restart Selected');
-$gt_record_conf = gtext('VM Configuration');
+$gt_record_conf = gtext('Jail Configuration');
 $gt_record_inf = gtext('Information');
-$gt_selection_start_confirm = gtext('Do you really want to start selected VM(s)?');
-$gt_selection_stop_confirm = gtext('Do you want to stop the selected VM(s)?');
-$gt_selection_restart_confirm = gtext('Do you want to restart the selected VM(s)?');
+$gt_selection_start_confirm = gtext('Do you really want to start selected Jail(s)?');
+$gt_selection_stop_confirm = gtext('Do you want to stop the selected Jail(s)?');
+$gt_selection_restart_confirm = gtext('Do you want to restart the selected Jail(s)?');
 $img_path = [
 	'add' => 'images/add.png',
 	'mod' => 'images/edit.png',
@@ -75,7 +75,7 @@ if($_POST):
 						//$savemsg .= gtext("Jail(s) started successfully.");
 						header($sphere_header);
 					else:
-						$errormsg .= gtext("Failed to start VM(s).");
+						$errormsg .= gtext("Failed to start Jail(s).");
 					endif;
 				endif;
 			endif;
@@ -93,7 +93,7 @@ if($_POST):
 						//$savemsg .= gtext("Jail(s) stopped successfully.");
 						header($sphere_header);
 					else:
-						$errormsg .= gtext("Failed to stop VM(s).");
+						$errormsg .= gtext("Failed to stop Jail(s).");
 					endif;
 				endif;
 			endif;
@@ -111,7 +111,7 @@ if($_POST):
 						//$savemsg .= gtext("Jail(s) restarted successfully.");
 						header($sphere_header);
 					else:
-						$errormsg .= gtext("Failed to restart VM(s).");
+						$errormsg .= gtext("Failed to restart Jail(s).");
 					endif;
 				endif;
 			endif;
@@ -175,7 +175,7 @@ $document->
 	add_area_tabnav()->
 		push()->
 		add_tabnav_upper()->
-			ins_tabnav_record('cbsd_manager_gui.php',gettext('VM'))->
+			ins_tabnav_record('cbsd_manager_gui.php',gettext('Jails'))->
 			ins_tabnav_record('cbsd_manager_info.php',gettext('Information'))->
 			ins_tabnav_record('cbsd_manager_maintenance.php',gettext('Maintenance'));
 $document->render();

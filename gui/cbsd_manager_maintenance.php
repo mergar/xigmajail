@@ -80,7 +80,7 @@ $(document).ready(function(){
 	<table width="100%" border="0" cellpadding="0" cellspacing="0">
 		<tr><td class="tabnavtbl">
 		<ul id="tabnav">
-			<li class="tabinact"><a href="cbsd_manager_gui.php"><span><?=gettext("VM");?></span></a></li>
+			<li class="tabinact"><a href="cbsd_manager_gui.php"><span><?=gettext("Jails");?></span></a></li>
 				<li class="tabact"><a href="cbsd_manager_info.php"><span><?=gettext("Information");?></span></a></li>
 			<li class="tabact"><a href="cbsd_manager_maintenance.php"><span><?=gettext("Maintenance");?></span></a></li>
 		</ul>

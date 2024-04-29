@@ -18,7 +18,7 @@ $document->
 	add_area_tabnav()->
 		push()->
 		add_tabnav_upper()->
-			ins_tabnav_record('cbsd_manager_gui.php',gettext('VM'),gettext('Reload page'),true)->
+			ins_tabnav_record('cbsd_manager_gui.php',gettext('Jails'),gettext('Reload page'),true)->
 			ins_tabnav_record('cbsd_manager_info.php',gettext('Information'),gettext('Reload page'),true)->
 			ins_tabnav_record('cbsd_manager_maintenance.php',gettext('Maintenance'),gettext('Reload page'),true);
 $document->render();
@@ -92,7 +92,7 @@ which makes these images attractive, since they save your time.
 Thus, one of the main requirements is the availability (for XigmaNAS instance) of resources from the Internet using the HTTP(s) protocol;
 </p>
 <br><br>
-<p><strong>2</strong>: Under the hood, network settings and VM configuration looks like this:</p>
+<p><strong>2</strong>: Under the hood, network settings and Jail configuration looks like this:</p>
 <br>
 <a href="/ext/cbsd-jail/images/xigmanas_gen2.png"><img src="/ext/cbsd-jail/images/xigmanas_gen2.png" alt="" width="600" height="400"></a>
 <br>
@@ -103,7 +103,7 @@ In this case, the address on the 'cbsd0' interface will act as the default gatew
 Of course, the network must be the same for the virtual machine addresses and the gateway. E.g.:
 </p>
 <table border=1>
-	<tr><td>Network for VM (example)</td><td>Init IP on cbsd_iface (GW4 for VM) (example)</td></tr>
+	<tr><td>Network for Jails (example)</td><td>Init IP on cbsd_iface (GW4 for VNET Jails) (example)</td></tr>
 	<tr><td><strong>10.0.0.0/24</strong></td><td><strong>10.0.0.1</strong></td></tr>
 	<tr><td><strong>172.16.0.0/24</strong></td><td><strong>172.16.0.1</strong></td></tr>
 	<tr><td><strong>192.168.0.2-30</strong> <em>(use range from 192.168.0.2 to 192.168.0.30)</em></td><td><strong>192.168.0.1</strong></td></tr>
@@ -114,10 +114,10 @@ You can turn off the automatic CBSD NAT and redirects through 'pf' via settings:
 </p>
 <ul>
 	<li>[ ] Enable NAT via CBSD/pf ?</li>
-	<li>[ ] Redirect 22 (when SSH) and/or 3389 (when RDP) port from XigmaNAS external IP / free port (auto) to VM</li>
+	<li>[ ] Redirect 22 (when SSH) and/or 3389 (when RDP) port from XigmaNAS external IP / free port (auto) to Jail</li>
 </ul>
 <br>
-<p>But in this case, you must configure NAT/RDR for VM in the XigmaNAS by yourself.
+<p>But in this case, you must configure NAT/RDR for Jail in the XigmaNAS by yourself.
 </p>
 <br><br>
 <p><strong>3</strong>: Errata</p>

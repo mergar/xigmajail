@@ -31,8 +31,8 @@ cd /
 vm_list=$( cbsd border 2>/dev/null )
 
 for i in ${vm_list}; do
-	echo "cbsd bremove jname=${i}" | tee -a /var/log/cbsd-init.log
-	cbsd bremove jname=${i} | tee -a /var/log/cbsd-init.log
+	echo "cbsd jremove jname=${i}" | tee -a /var/log/cbsd-init.log
+	cbsd jremove jname=${i} | tee -a /var/log/cbsd-init.log
 done
 
 /sbin/ifconfig cbsd0 > /dev/null 2>&1

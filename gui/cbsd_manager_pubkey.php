@@ -83,12 +83,12 @@ $document->
 	add_area_tabnav()->
 		push()->
 		add_tabnav_upper()->
-			ins_tabnav_record('cbsd_manager_gui.php',gettext('VM'),gettext('Reload page'),true)->
+			ins_tabnav_record('cbsd_manager_gui.php',gettext('Jails'),gettext('Reload page'),true)->
 			ins_tabnav_record('cbsd_manager_info.php',gettext('Information'),gettext('Reload page'),true)->
 			ins_tabnav_record('cbsd_manager_maintenance.php',gettext('Maintenance'),gettext('Reload page'),true)->
 		pop()->add_tabnav_lower()->
 			ins_tabnav_record('cbsd_manager_config.php',gettext('CBSD Configuration'),gettext('Reload page'),true)->
-			ins_tabnav_record('cbsd_manager_golds.php',gettext('Gold Images'),gettext('Reload page'),true)->
+//			ins_tabnav_record('cbsd_manager_golds.php',gettext('Gold Images'),gettext('Reload page'),true)->
 			ins_tabnav_record('cbsd_manager_pubkey.php',gettext('Pubkey'),gettext('Reload page'),true);
 $document->render();
 ?>
