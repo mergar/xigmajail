@@ -117,9 +117,9 @@ if($_POST):
 		endif;
 
 		if (isset($_POST['nowstart'])):
-			$cmd = ("/usr/bin/env NOINTER=1 /usr/local/bin/cbsd jcreate jname={$jname} astart={$astart} ip4_addr={$ipaddr} ver=native runasap=1 inter=0 pkg_bootstrap=0");
+			$cmd = ("/usr/bin/env NOINTER=1 /usr/local/bin/cbsd jcreate jname={$jname} vmemoryuse=${ram} cpu=${cpu} astart={$astart} ip4_addr={$ipaddr} ver=native runasap=1 inter=0 pkg_bootstrap=0");
 		else:
-			$cmd = ("/usr/bin/env NOINTER=1 /usr/local/bin/cbsd jcreate jname={$jname} astart={$astart} ip4_addr={$ipaddr} ver=native inter=0 pkg_bootstrap=0");
+			$cmd = ("/usr/bin/env NOINTER=1 /usr/local/bin/cbsd jcreate jname={$jname} vmemoryuse=${ram} cpu=${cpu} astart={$astart} ip4_addr={$ipaddr} ver=native inter=0 pkg_bootstrap=0");
 		endif;
 
 		if ($_POST['Create']):
@@ -195,8 +195,8 @@ $document->render();
 				$ip4_addr="";
 				$jname="";
 			endif;
-//			$a_action = $l_interfaces;
-			$a_action = [ 'cbsd0' => 'cbsd0' ];
+			$a_action = $l_interfaces;
+//			$a_action = [ 'cbsd0' => 'cbsd0' ];
 			$b_action = $l_release;
 //			$c_action = $l_pubkey;
 			$d_action = $l_cpu;

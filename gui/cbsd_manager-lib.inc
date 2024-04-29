@@ -108,7 +108,7 @@ function get_all_pubkey_list() {
 // Get all interface list.
 function get_all_interface_list() {
 	global $g;
-	exec("/bin/echo; /sbin/ifconfig -l | /usr/bin/tr -s ' ' '\n'; /bin/echo 'Config'",$linkinfo);
+	exec("/bin/echo; /bin/echo 'auto'; /sbin/ifconfig -l | /usr/bin/tr -s ' ' '\n'",$linkinfo);
 	array_shift($linkinfo);
 	$iflist = [];
 	foreach($linkinfo as $link):
@@ -165,7 +165,7 @@ function get_jail_infos() {
 	global $configfile;
 	global $jail_dir;
 	$result = [];
-	$cmd = "/usr/local/bin/cbsd jls display=jid,jname,ip4_addr,host_hostname,ver,status,astart,vm_ram,vm_cpus,vnc header=0";
+	$cmd = "/usr/local/bin/cbsd jls display=jid,jname,ip4_addr,host_hostname,ver,status,astart,vmemoryuse,cpu,vnc header=0";
 	mwexec2($cmd,$rawdata);
 	foreach($rawdata as $line):
 		$line = preg_replace('/\s+/', ' ', $line);

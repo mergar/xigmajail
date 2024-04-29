@@ -35,7 +35,7 @@ if(!(isset($pconfig['cbsd_iface']))):
 	if(file_exists("{$rootfolder}/conf/iface")):
 		$pconfig['cbsd_iface'] = file_get_contents("{$rootfolder}/conf/iface");
 	else:
-		$pconfig['cbsd_iface'] = 'cbsd0';
+		$pconfig['cbsd_iface'] = 'auto';
 	endif;
 endif;
 
