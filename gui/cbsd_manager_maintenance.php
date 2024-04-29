@@ -91,8 +91,8 @@ if(!empty($cbsd_version)):
 ?>
 		<ul id="tabnav2">
 			<li class="tabact"><a href="cbsd_manager_config.php"><span><?=gettext("CBSD Configuration");?></span></a></li>
-			<li class="tabact"><a href="cbsd_manager_golds.php"><span><?=gettext("Gold Images");?></span></a></li>
-			<li class="tabact"><a href="cbsd_manager_pubkey.php"><span><?=gettext("Pubkey");?></span></a></li>
+<!--			<li class="tabact"><a href="cbsd_manager_golds.php"><span><?=gettext("Gold Images");?></span></a></li> -->
+<!--			<li class="tabact"><a href="cbsd_manager_pubkey.php"><span><?=gettext("Pubkey");?></span></a></li> -->
 		</ul>
 <?php
 endif;

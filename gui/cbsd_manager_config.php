@@ -3,7 +3,7 @@ require_once 'auth.inc';
 require_once 'guiconfig.inc';
 require_once("cbsd_manager-lib.inc");
 
-$pgtitle = [gtext("Extensions"), gtext('CBSD'),gtext('Pubkey')];
+$pgtitle = [gtext("Extensions"), gtext('CBSD'),gtext('config')];
 
 $sphere_array = [];
 $sphere_record = [];
@@ -162,9 +162,9 @@ $document->
 			ins_tabnav_record('cbsd_manager_info.php',gettext('Information'),gettext('Reload page'),true)->
 			ins_tabnav_record('cbsd_manager_maintenance.php',gettext('Maintenance'),gettext('Reload page'),true)->
 			pop()->add_tabnav_lower()->
-				ins_tabnav_record('cbsd_manager_config.php',gettext('CBSD Configuration'),gettext('Reload page'),true)->
-				ins_tabnav_record('cbsd_manager_golds.php',gettext('Gold Images'),gettext('Reload page'),true)->
-				ins_tabnav_record('cbsd_manager_pubkey.php',gettext('Pubkey'),gettext('Reload page'),true);
+				ins_tabnav_record('cbsd_manager_config.php',gettext('CBSD Configuration'),gettext('Reload page'),true);
+//				ins_tabnav_record('cbsd_manager_golds.php',gettext('Gold Images'),gettext('Reload page'),true)->
+//				ins_tabnav_record('cbsd_manager_pubkey.php',gettext('Pubkey'),gettext('Reload page'),true);
 $document->render();
 ?>
 <form action="cbsd_manager_config.php" method="post" name="iform" id="iform"><table id="area_data"><tbody><tr><td id="area_data_frame">
