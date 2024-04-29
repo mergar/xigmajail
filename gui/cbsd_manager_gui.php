@@ -299,16 +299,28 @@ $document->render();
 					$ssh2_len=strlen($sphere_record['ssh_string2']);
 					$ssh1_len--;
 					$ssh2_len--;
+
+					$jid=htmlspecialchars($sphere_record['id']);
 ?>
 					</td>
-					<td class="lcell"><?=htmlspecialchars($sphere_record['id']);?>&nbsp;</td>
+					<td class="lcell"><?php echo "${jid}";?>&nbsp;</td>
 					<td class="lcell"><?=htmlspecialchars($sphere_record['ip']);?>&nbsp;</td>
 					<td class="lcell"><?=htmlspecialchars($sphere_record['name']);?>&nbsp;</td>
 					<td class="lcell"><?=htmlspecialchars($sphere_record['cpus']);?>&nbsp;</td>
 					<td class="lcell"><?=htmlspecialchars($sphere_record['ram']);?>&nbsp;</td>
 					<td class="lcell"><img src="<?=$sphere_record['logo'];?>"><?=htmlspecialchars($sphere_record['rel']);?>&nbsp;</td>
 					<td class="lcell"><input type="text" minlength="<?=$ssh1_len;?>" maxlength="<?=$ssh1_len;?>" size="<?=$ssh1_len;?>"  value="<?=htmlspecialchars($sphere_record['ssh_string']);?>" readonly> / <input type="text" minlength="<?=$ssh2_len;?>" maxlength="<?=$ssh2_len;?>" size="<?=$ssh2_len;?>" value="<?=htmlspecialchars($sphere_record['ssh_string2']);?>" readonly></td>
+<?php
+					if ($jid == 0):
+?>
+					<td class="lcell">&nbsp;</td>
+<?php
+					else:
+?>
 					<td class="lcell"><a target="_blank" href="/cbsd_ttyd.php?jid=<?=htmlspecialchars($sphere_record['id']);?>"><img src="/ext/cbsd-jail/images/terminal.png" alt="Terminal" width="24" height="24"></a></td>
+<?php
+					endif;
+?>
 					<td class="lcell"><img src="<?=$sphere_record['boot'];?>"></td>
 					<td class="lcell"><img src="<?=$sphere_record['stat'];?>"></td>
 					<td class="lcebld">
