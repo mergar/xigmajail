@@ -21,7 +21,7 @@ unset tmpver
 if [ ! -x "${CBSD_CMD}" ]; then
 	echo "No such cbsd executable, installing via pkg.."
 
-	env SIGNATURE_TYPE=none ASSUME_ALWAYS_YES=yes IGNORE_OSVERSION=yes pkg install -y tmux cbsd
+	env SIGNATURE_TYPE=none ASSUME_ALWAYS_YES=yes IGNORE_OSVERSION=yes pkg install -y tmux cbsd ttyd
 
 	# for devel
 	# env SIGNATURE_TYPE=none ASSUME_ALWAYS_YES=yes IGNORE_OSVERSION=yes pkg install -y sudo libssh2 rsync sqlite3 tmux git
