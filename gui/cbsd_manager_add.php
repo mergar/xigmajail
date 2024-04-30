@@ -473,7 +473,15 @@ $document->render();
 			html_inputbox2('ram',gettext('Jail RAM (1g, 4g, .., 0 - unlimited)'),$pconfig['ram'],"",true,20);
 //			html_inputbox2('imgsize',gettext('Disk size (20g, 40g, .., 0 - unlimited)'),$pconfig['imgsize'],'',true,20);
 			html_inputbox2('ipaddress',gettext('IP Address'),$ip4_addr[0],'',true,20);
-			html_inputbox2('gw4',gettext('GW IP Address (for VNET jail only)'),$ip4_addr[0],'',true,20);
+			html_checkbox2('vnet',gettext('Enable virtual network stack for jail'),!empty($pconfig['vnet']) ? true : false,gettext('Enable virtual network stack for jail'),'',false);
+			if(!(isset($pconfig['cbsd_gw4']))):
+				if(file_exists("{$rootfolder}/conf/gw4")):
+					$pconfig['cbsd_gw4'] = file_get_contents("{$rootfolder}/conf/gw4");
+				else:
+					$pconfig['cbsd_gw4'] = '10.0.0.1';
+				endif;
+			endif;
+			html_inputbox2('gw4',gettext('GW IP Address (for VNET jail only)'),$pconfig['cbsd_gw4'],'',true,20);
 			html_combobox2('interface',gettext('Network interface'),!empty($pconfig['interface']),$a_action,'',true,false);
 //			html_combobox2('vnc_bind',gettext('VNC bind'),!empty($pconfig['vnc_bind']),$l_vnc_bind,'',true,false);
 
