@@ -39,6 +39,14 @@ if(!(isset($pconfig['cbsd_iface']))):
 	endif;
 endif;
 
+if(!(isset($pconfig['fqdn']))):
+	if(file_exists("{$rootfolder}/conf/fqdn")):
+		$pconfig['fqdn'] = file_get_contents("{$rootfolder}/conf/fqdn");
+	else:
+		$pconfig['fqdn'] = 'my.domain';
+	endif;
+endif;
+
 if(!(isset($pconfig['cbsd_workdir']))):
 	if(file_exists("{$rootfolder}/conf/workdir")):
 		$pconfig['cbsd_workdir'] = file_get_contents("{$rootfolder}/conf/workdir");
@@ -115,6 +123,11 @@ if($_POST):
 		else:
 			$fp=fopen("{$rootfolder}/conf/rdr.new","w");
 			fputs($fp,'no');
+			fclose($fp);
+		endif;
+		if (isset($pconfig['fqdn'])):
+			$fp=fopen("{$rootfolder}/conf/fqdn","w");
+			fputs($fp,$pconfig['fqdn']);
 			fclose($fp);
 		endif;
 
@@ -196,11 +209,12 @@ $document->render();
 		<tbody>
 <?php
 			html_filechooser("cbsd_workdir", gettext("CBSD workdir"),  $pconfig['cbsd_workdir'], sprintf(gettext("The %s MUST be set to a directory below: %s. Make sure you have enough space for jails."), gettext("CBSD workdir"), "<b>'{$pconfig['cbsd_workdir']}'</b>"), true, 60);
-			html_combobox2('cbsd_iface',gettext('Jail interface name'),$pconfig['cbsd_iface'] ?? '',[ 'cbsd0' => 'cbsd0' ],'(current version supports only one network interface)',true,false,'type_change()');
+//			html_combobox2('cbsd_iface',gettext('Jail interface name'),$pconfig['cbsd_iface'] ?? '',[ 'cbsd0' => 'cbsd0' ],'(current version supports only one network interface)',true,false,'type_change()');
 			html_inputbox2('cbsd_gw4',gettext('Init IP on cbsd_iface (GW4 for VNET Jails)'),$pconfig['cbsd_gw4'],'',true,15);
 			html_inputbox2('cbsd_net',gettext('Network for Jails, e.g: 10.0.0.0/24 or 10.0.0.1-50'),$pconfig['cbsd_net'],'',true,30);
 			html_checkbox2('cbsd_nat',gettext('Enable NAT via CBSD/pf ?'),!empty($pconfig['cbsd_nat']) ? true : false,'','(learn: <a href="cbsd_manager_info.php">Arhcitecture Info</a>)',false);
 			html_checkbox2('cbsd_rdr',gettext('Redirect 22 (when SSH) and/or 3389 (when RDP) port from XigmaNAS external IP / free port (auto) to Jails'),!empty($pconfig['cbsd_rdr']) ? true : false,'','(learn: <a href="cbsd_manager_info.php">Arhcitecture Info</a>)',false);
+			html_inputbox2('fqdn',gettext('Default FQDN for jails'),$pconfig['fqdn'],'',true,20);
 ?>
 		</tbody>
 	</table>

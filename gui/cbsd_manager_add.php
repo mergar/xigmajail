@@ -17,6 +17,14 @@ if(!(isset($pconfig['ipaddress']))):
 	$pconfig['ipaddress'] = '';
 endif;
 
+if(!(isset($pconfig['fqdn']))):
+	if(file_exists("{$rootfolder}/conf/fqdn")):
+		$pconfig['fqdn'] = file_get_contents("{$rootfolder}/conf/fqdn");
+	else:
+		$pconfig['fqdn'] = 'my.domain';
+	endif;
+endif;
+
 if(!(isset($pconfig['cpu']))):
 	if(file_exists( $configfile )):
 		$pconfig['cpu'] = exec("/usr/bin/grep '^last_cpu_created=' {$configfile} 2>/dev/null | /usr/bin/cut -d'\"' -f2");
@@ -47,6 +55,160 @@ if(!(isset($pconfig['imgsize']))):
 		endif;
 	else:
 		$pconfig['imgsize'] = '0';
+	endif;
+endif;
+
+if(!(isset($pconfig['baserw']))):
+	if(file_exists( $configfile )):
+		$pconfig['baserw'] = exec("/usr/bin/grep '^last_baserw_created=' {$configfile} 2>/dev/null | /usr/bin/cut -d'\"' -f2");
+		if(empty($pconfig['baserw'])):
+			$pconfig['baserw'] = '0';
+		endif;
+	else:
+		$pconfig['baserw'] = '0';
+	endif;
+endif;
+
+if(!(isset($pconfig['vnet']))):
+	if(file_exists( $configfile )):
+		$pconfig['vnet'] = exec("/usr/bin/grep '^last_vnet_created=' {$configfile} 2>/dev/null | /usr/bin/cut -d'\"' -f2");
+		if(empty($pconfig['vnet'])):
+			$pconfig['vnet'] = '0';
+		endif;
+	else:
+		$pconfig['vnet'] = '0';
+	endif;
+endif;
+
+if(!(isset($pconfig['allow_mount']))):
+	if(file_exists( $configfile )):
+		$pconfig['allow_mount'] = exec("/usr/bin/grep '^last_allow_mount_created=' {$configfile} 2>/dev/null | /usr/bin/cut -d'\"' -f2");
+		if(empty($pconfig['allow_mount'])):
+			$pconfig['allow_mount'] = '1';
+		endif;
+	else:
+		$pconfig['allow_mount'] = '1';
+	endif;
+endif;
+
+if(!(isset($pconfig['allow_nullfs']))):
+	if(file_exists( $configfile )):
+		$pconfig['allow_nullfs'] = exec("/usr/bin/grep '^last_allow_nullfs_created=' {$configfile} 2>/dev/null | /usr/bin/cut -d'\"' -f2");
+		if(empty($pconfig['allow_nullfs'])):
+			$pconfig['allow_nullfs'] = '1';
+		endif;
+	else:
+		$pconfig['allow_nullfs'] = '1';
+	endif;
+endif;
+
+if(!(isset($pconfig['allow_fdescfs']))):
+	if(file_exists( $configfile )):
+		$pconfig['allow_fdescfs'] = exec("/usr/bin/grep '^last_allow_fdescfs_created=' {$configfile} 2>/dev/null | /usr/bin/cut -d'\"' -f2");
+		if(empty($pconfig['allow_fdescfs'])):
+			$pconfig['allow_fdescfs'] = '1';
+		endif;
+	else:
+		$pconfig['allow_fdescfs'] = '1';
+	endif;
+endif;
+
+if(!(isset($pconfig['allow_procfs']))):
+	if(file_exists( $configfile )):
+		$pconfig['allow_procfs'] = exec("/usr/bin/grep '^last_allow_procfs_created=' {$configfile} 2>/dev/null | /usr/bin/cut -d'\"' -f2");
+		if(empty($pconfig['allow_procfs'])):
+			$pconfig['allow_procfs'] = '0';
+		endif;
+	else:
+		$pconfig['allow_procfs'] = '0';
+	endif;
+endif;
+
+if(!(isset($pconfig['allow_raw_sockets']))):
+	if(file_exists( $configfile )):
+		$pconfig['allow_raw_sockets'] = exec("/usr/bin/grep '^last_allow_raw_sockets_created=' {$configfile} 2>/dev/null | /usr/bin/cut -d'\"' -f2");
+		if(empty($pconfig['allow_raw_sockets'])):
+			$pconfig['allow_raw_sockets'] = '1';
+		endif;
+	else:
+		$pconfig['allow_raw_sockets'] = '1';
+	endif;
+endif;
+
+if(!(isset($pconfig['allow_tmpfs']))):
+	if(file_exists( $configfile )):
+		$pconfig['allow_tmpfs'] = exec("/usr/bin/grep '^last_allow_tmpfs_created=' {$configfile} 2>/dev/null | /usr/bin/cut -d'\"' -f2");
+		if(empty($pconfig['allow_tmpfs'])):
+			$pconfig['allow_tmpfs'] = '1';
+		endif;
+	else:
+		$pconfig['allow_tmpfs'] = '1';
+	endif;
+endif;
+
+if(!(isset($pconfig['allow_zfs']))):
+	if(file_exists( $configfile )):
+		$pconfig['allow_zfs'] = exec("/usr/bin/grep '^last_allow_zfs_created=' {$configfile} 2>/dev/null | /usr/bin/cut -d'\"' -f2");
+		if(empty($pconfig['allow_zfs'])):
+			$pconfig['allow_zfs'] = '0';
+		endif;
+	else:
+		$pconfig['allow_zfs'] = '0';
+	endif;
+endif;
+
+if(!(isset($pconfig['allow_mlock']))):
+	if(file_exists( $configfile )):
+		$pconfig['allow_mlock'] = exec("/usr/bin/grep '^last_allow_mlock_created=' {$configfile} 2>/dev/null | /usr/bin/cut -d'\"' -f2");
+		if(empty($pconfig['allow_mlock'])):
+			$pconfig['allow_mlock'] = '0';
+		endif;
+	else:
+		$pconfig['allow_mlock'] = '0';
+	endif;
+endif;
+
+if(!(isset($pconfig['allow_nfsd']))):
+	if(file_exists( $configfile )):
+		$pconfig['allow_nfsd'] = exec("/usr/bin/grep '^last_allow_nfsd_created=' {$configfile} 2>/dev/null | /usr/bin/cut -d'\"' -f2");
+		if(empty($pconfig['allow_nfsd'])):
+			$pconfig['allow_nfsd'] = '0';
+		endif;
+	else:
+		$pconfig['allow_nfsd'] = '0';
+	endif;
+endif;
+
+if(!(isset($pconfig['mount_fdescfs']))):
+	if(file_exists( $configfile )):
+		$pconfig['mount_fdescfs'] = exec("/usr/bin/grep '^last_mount_fdescfs_created=' {$configfile} 2>/dev/null | /usr/bin/cut -d'\"' -f2");
+		if(empty($pconfig['mount_fdescfs'])):
+			$pconfig['mount_fdescfs'] = '1';
+		endif;
+	else:
+		$pconfig['mount_fdescfs'] = '1';
+	endif;
+endif;
+
+if(!(isset($pconfig['mount_procfs']))):
+	if(file_exists( $configfile )):
+		$pconfig['mount_procfs'] = exec("/usr/bin/grep '^last_mount_procfs_created=' {$configfile} 2>/dev/null | /usr/bin/cut -d'\"' -f2");
+		if(empty($pconfig['mount_procfs'])):
+			$pconfig['mount_procfs'] = '0';
+		endif;
+	else:
+		$pconfig['mount_procfs'] = '0';
+	endif;
+endif;
+
+if(!(isset($devfs_ruleset))):
+	if(file_exists( $configfile )):
+		$devfs_ruleset = exec("/usr/bin/grep '^last_devfs_ruleset_created=' {$configfile} 2>/dev/null | /usr/bin/cut -d'\"' -f2");
+		if(empty($devfs_ruleset)):
+			$devfs_ruleset = '4';
+		endif;
+	else:
+		$devfs_ruleset = '4';
 	endif;
 endif;
 
@@ -105,6 +267,24 @@ if($_POST):
 			$interface = $pconfig['interface'];
 		endif;
 
+		$baserw=$pconfig['baserw'];
+		$vnet=$pconfig['vnet'];
+		$allow_mount=$pconfig['allow_mount'];
+		$allow_nullfs=$pconfig['allow_nullfs'];
+		$allow_fdescfs=$pconfig['allow_fdescfs'];
+		$allow_procfs=$pconfig['allow_procfs'];
+		$allow_raw_sockets=$pconfig['allow_raw_sockets'];
+		$allow_tmpfs=$pconfig['allow_tmpfs'];
+		$allow_zfs=$pconfig['allow_zfs'];
+		$allow_mlock=$pconfig['allow_mlock'];
+		$allow_nfsd=$pconfig['allow_nfsd'];
+		$mount_fdescfs=$pconfig['mount_fdescfs'];
+		$mount_procfs=$pconfig['mount_procfs'];
+		//$devfs_ruleset;
+
+//baserw={$baserw} vnet={$vnet} allow_mount={$allow_mount} allow_nullfs={$allow_nullfs} allow_fdescfs={$allow_fdescfs} allow_procfs={$allow_procfs} allow_raw_sockets={$allow_raw_sockets} allow_tmpfs={$allow_tmpfs} allow_zfs={$allow_zfs} allow_mlock={$allow_mlock} allow_nfsd={$allow_nfsd} mount_fdescfs={$mount_fdescfs} mount_procfs={$mount_procfs}
+
+
 //		$profile_path = sprintf('/usr/local/cbsd/etc/defaults/vm-%1$s.conf',$release);
 //		$vm_os_type = exec("/usr/bin/grep '^vm_os_type=' {$profile_path} | /usr/bin/cut -d'\"' -f2");
 //		$vm_os_profile = exec("/usr/bin/grep '^vm_profile=' {$profile_path} | /usr/bin/cut -d'\"' -f2");
@@ -116,10 +296,86 @@ if($_POST):
 			$astart="0";
 		endif;
 
+
 		if (isset($_POST['nowstart'])):
-			$cmd = ("/usr/bin/env NOINTER=1 /usr/local/bin/cbsd jcreate jname={$jname} vmemoryuse=${ram} cpu=${cpu} astart={$astart} ip4_addr={$ipaddr} ver=native runasap=1 inter=0 pkg_bootstrap=0");
+			$cmd .= " runasap=1";
+		endif;
+
+		if (isset($_POST['baserw'])):
+			$baserw=1;
 		else:
-			$cmd = ("/usr/bin/env NOINTER=1 /usr/local/bin/cbsd jcreate jname={$jname} vmemoryuse=${ram} cpu=${cpu} astart={$astart} ip4_addr={$ipaddr} ver=native inter=0 pkg_bootstrap=0");
+			$baserw=0;
+		endif;
+		if (isset($_POST['vnet'])):
+			$vnet=1;
+		else:
+			$vnet=0;
+		endif;
+		if (isset($_POST['allow_mount'])):
+			$allow_mount=1;
+		else:
+			$allow_mount=0;
+		endif;
+		if (isset($_POST['allow_nullfs'])):
+			$allow_nullfs=1;
+		else:
+			$allow_nullfs=0;
+		endif;
+		if (isset($_POST['allow_fdescfs'])):
+			$allow_fdescfs=1;
+		else:
+			$allow_fdescfs=0;
+		endif;
+		if (isset($_POST['allow_procfs'])):
+			$allow_procfs=1;
+		else:
+			$allow_procfs=0;
+		endif;
+		if (isset($_POST['allow_raw_sockets'])):
+			$allow_raw_sockets=1;
+		else:
+			$allow_raw_sockets=0;
+		endif;
+		if (isset($_POST['allow_tmpfs'])):
+			$allow_tmpfs=1;
+		else:
+			$allow_tmpfs=0;
+		endif;
+		if (isset($_POST['allow_zfs'])):
+			$allow_zfs=1;
+		else:
+			$allow_zfs=0;
+		endif;
+		if (isset($_POST['allow_mlock'])):
+			$allow_mlock=1;
+		else:
+			$allow_mlock=0;
+		endif;
+		if (isset($_POST['allow_nfsd'])):
+			$allow_nfsd=1;
+		else:
+			$allow_nfsd=0;
+		endif;
+		if (isset($_POST['mount_fdescfs'])):
+			$mount_fdescfs=1;
+		else:
+			$mount_fdescfs=0;
+		endif;
+		if (isset($_POST['mount_procfs'])):
+			$mount_procfs=1;
+		else:
+			$mount_procfs=0;
+		endif;
+		if (isset($_POST['devfs_ruleset'])):
+			$devfs_ruleset=$_POST['devfs_ruleset'];;
+		else:
+			$devfs_ruleset=4;
+		endif;
+
+		$cmd = "/usr/bin/env NOINTER=1 /usr/local/bin/cbsd jcreate jname={$jname} vmemoryuse=${ram} cpu=${cpu} astart={$astart} ip4_addr={$ipaddr} ver=native inter=0 pkg_bootstrap=0 baserw={$baserw} vnet={$vnet} allow_mount={$allow_mount} allow_nullfs={$allow_nullfs} allow_fdescfs={$allow_fdescfs} allow_procfs={$allow_procfs} allow_raw_sockets={$allow_raw_sockets} allow_tmpfs={$allow_tmpfs} allow_zfs={$allow_zfs} allow_mlock={$allow_mlock} allow_nfsd={$allow_nfsd} mount_fdescfs={$mount_fdescfs} mount_procfs={$mount_procfs} devfs_ruleset={$devfs_ruleset}";
+
+		if (isset($_POST['nowstart'])):
+			$cmd .= " runasap=1";
 		endif;
 
 		if ($_POST['Create']):
@@ -210,12 +466,14 @@ $document->render();
 //				$pubkey_comment = '';
 //			endif;
 			html_inputbox2('jailname',gettext('Jail name'),$jname[0],'',true,20);
+			html_inputbox2('host_hostname',gettext('Jail FQDN'),$jname[0].".".$pconfig['fqdn'],'',true,40);
 
 			$cpu_default_option = '1';
 			html_combobox2('cpu',gettext("vCPU (Host Core Num: (0 - unlimited))"),array_key_exists($pconfig['cpu'] ?? '',$d_action) ? $pconfig['cpu'] : $cpu_default_options ,$d_action,'',true,false,'type_change()');
 			html_inputbox2('ram',gettext('Jail RAM (1g, 4g, .., 0 - unlimited)'),$pconfig['ram'],"",true,20);
 //			html_inputbox2('imgsize',gettext('Disk size (20g, 40g, .., 0 - unlimited)'),$pconfig['imgsize'],'',true,20);
 			html_inputbox2('ipaddress',gettext('IP Address'),$ip4_addr[0],'',true,20);
+			html_inputbox2('gw4',gettext('GW IP Address (for VNET jail only)'),$ip4_addr[0],'',true,20);
 			html_combobox2('interface',gettext('Network interface'),!empty($pconfig['interface']),$a_action,'',true,false);
 //			html_combobox2('vnc_bind',gettext('VNC bind'),!empty($pconfig['vnc_bind']),$l_vnc_bind,'',true,false);
 
@@ -227,6 +485,20 @@ $document->render();
 //			html_combobox2('pubkey',  gettext('Pubkey'),!empty($pconfig['pubkey']),$c_action,"{$pubkey_comment}",true,false);
 			html_checkbox2('nowstart',gettext('Start after creation'),!empty($pconfig['nowstart']) ? true : false,gettext('Start the Jail after creation.'),'',false);
 			html_checkbox2('autostart',gettext('Auto start on boot'),!empty($pconfig['autostart']) ? true : false,gettext('Automatically start the Jail at boot time.'),'',false);
+			html_checkbox2('baserw',gettext('Jail base is not read-only (full base copy)'),!empty($pconfig['baserw']) ? true : false,gettext('Jail base is not read-only (full base copy)'),'',false);
+			html_checkbox2('vnet',gettext('Enable virtual network stack for jail'),!empty($pconfig['vnet']) ? true : false,gettext('Enable virtual network stack for jail'),'',false);
+			html_checkbox2('allow_mount',gettext('Allow privileged users inside the jail mount and unmount file system'),!empty($pconfig['allow_mount']) ? true : false,gettext('Allow privileged users inside the jail mount and unmount file system'),'',false);
+			html_checkbox2('allow_nullfs',gettext('Allow privileged users inside the jail mount and unmount NULLFS file system'),!empty($pconfig['allow_nullfs']) ? true : false,gettext('Allow privileged users inside the jail mount and unmount NULLFS file system'),'',false);
+			html_checkbox2('allow_fdescfs',gettext('Jail may mount the fdescfs file system'),!empty($pconfig['allow_fdescfs']) ? true : false,gettext('Jail may mount the fdescfs file system'),'',false);
+			html_checkbox2('allow_procfs',gettext('Allow privileged users inside the jail mount and unmount PROCFS file system'),!empty($pconfig['allow_procfs']) ? true : false,gettext('Allow privileged users inside the jail mount and unmount PROCFS file system'),'',false);
+			html_checkbox2('allow_raw_sockets',gettext('The jail root is allowed to create raw sockets'),!empty($pconfig['allow_raw_sockets']) ? true : false,gettext('The jail root is allowed to create raw sockets'),'',false);
+			html_checkbox2('allow_tmpfs',gettext('Allow privileged users inside the jail mount and unmount TMPFS file system'),!empty($pconfig['allow_tmpfs']) ? true : false,gettext('Allow privileged users inside the jail mount and unmount TMPFS file system'),'',false);
+			html_checkbox2('allow_zfs',gettext('Privileged users inside the jail will be able to mount and unmount the ZFS file system'),!empty($pconfig['allow_zfs']) ? true : false,gettext('Privileged users inside the jail will be able to mount and unmount the ZFS file system'),'',false);
+			html_checkbox2('allow_mlock',gettext('Allow mlock(2) or munlock(2) within jail'),!empty($pconfig['allow_mlock']) ? true : false,gettext('Allow mlock(2) or munlock(2) within jail'),'',false);
+			html_checkbox2('allow_nfsd',gettext('Allow mountd(8), nfsd(8), nfsuserd(8), gssd(8), rpc.tlsservd(8) daemons within jail'),!empty($pconfig['allow_nfsd']) ? true : false,gettext('Allow mountd(8), nfsd(8), nfsuserd(8), gssd(8), rpc.tlsservd(8) daemons within jail'),'',false);
+			html_checkbox2('mount_fdescfs',gettext('Mount a FDESCFS filesystem on the chrooted /dev/fd directory'),!empty($pconfig['mount_fdescfs']) ? true : false,gettext('Mount a FDESCFS filesystem on the chrooted /dev/fd directory'),'',false);
+			html_checkbox2('mount_procfs',gettext('Mount a PROCFS filesystem on the chrooted /proc'),!empty($pconfig['mount_procfs']) ? true : false,gettext('Mount a PROCFS filesystem on the chrooted /proc'),'',false);
+			html_inputbox2('devfs_ruleset',gettext('DEVFS ruleset number for jail devfs'),$devfs_ruleset,'',true,4);
 ?>
 		</tbody>
 	</table>

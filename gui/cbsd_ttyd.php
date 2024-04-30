@@ -31,7 +31,10 @@ header("Pragma: no-cache");
 
 exec("/bin/pkill -9 ttyd; /usr/sbin/daemon -f ${cmd}; sleep 2;",$output,$return_val);
 if ( $return_val == 0 ):
-	$url="http://${secret}:${secret}@xigma:7681";
+
+	//$server_name=$_SERVER['SERVER_NAME'];
+	$http_host=$_SERVER['HTTP_HOST'];
+	$url="http://${secret}:${secret}@${http_host}:7681";
 	echo "<meta http-equiv=\"refresh\" content=\"0; url=${url}\" />";
 else:
 	print_r($output);

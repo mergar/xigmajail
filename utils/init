@@ -153,7 +153,10 @@ ret=$?
 if [ ${ret} -ne 0 ]; then
 	sysrc cloned_interfaces+="bridge0"
 fi
+
 sysrc ifconfig_bridge0="inet ${GW4}/24 up name cbsd0"
+
+/sbin/ifconfig cbsd0 inet ${GW4}/24 up
 
 if [ -r "${CONF_PATH}/net.new" ]; then
 	NET=$( grep . ${CONF_PATH}/net.new | awk '{printf $1}' )
@@ -214,6 +217,9 @@ else
 	echo "error: cbsd version failed"
 	exit 1
 fi
+
+# don't create (when '1') NAT rules for SAME network as NATIP
+#sysrc -qf ${WORKDIR}/etc/cbsd-pf.conf cbsd_nat_skip_natip_network=0
 
 if [ "${cbsd_nat}" = "1" ]; then
 	/usr/local/bin/cbsd naton 2>&1 | tee -a /var/log/cbsd-init.log
